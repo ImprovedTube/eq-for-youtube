@@ -1,0 +1,107 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: #4a76d9;
+  color: white;
+  border-radius: 8px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #4a76d9;
+}
+
+section {
+  margin-bottom: 40px;
+  padding: 30px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero {
+  text-align: center;
+}
+
+.download-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #4ade80;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.download-btn:hover {
+  background-color: #3b9c60;
+}
+
+.video-container {
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-container h3 {
+  margin-bottom: 15px;
+  color: #4a76d9;
+  font-size: 1.4rem;
+}
+
+.video-container iframe {
+  max-width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+  .video-container iframe {
+    width: 100%;
+    height: auto;
+    min-height: 240px;
+  }
+}
+
+ul, ol {
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  color: #666;
+}
