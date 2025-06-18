@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EQ for YouTube</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="eq-container" class="resizable">
+    <!-- Header Section -->
+    <div class="header">
+      <div class="header-left">
+        <h1>EQ for YouTube</h1>
+      </div>
+      
+      <div class="header-right">
+        <!-- Power Button -->
+        <button id="power-button" class="toggle-button">
+          <span class="material-icons">power_settings_new</span>
+          <span id="power-status" class="status-text">Active</span>
+        </button>
+        
+        <!-- Reset Button -->
+        <button id="reset-button" class="action-button">
+          <span class="material-icons">restart_alt</span>
+          <span>Reset</span>
+        </button>
+        
+
+        <!-- Preset selector -->
+        <div class="preset-selector">
+          <select id="preset-selector">
+            <option value="custom" selected>Custom</option>
+            <option value="flat">Flat</option>
+            <option value="bass-boost">Bass Boost</option>
+            <option value="treble-boost">Treble Boost</option>
+            <option value="v-shaped">V-Shaped</option>
+          </select>
+          <span class="material-icons dropdown-icon">arrow_drop_down</span>
+        </div>
+        
+        <!-- Save preset button -->
+        <button id="save-preset" class="icon-button">
+          <span class="material-icons">save</span>
+        </button>
+        
+        <!-- Toggle theme button -->
+        <button id="toggle-theme" class="icon-button">
+          <span class="material-icons theme-icon-light">dark_mode</span>
+          <span class="material-icons theme-icon-dark">light_mode</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Main EQ Visualization Area -->
+    <div class="visualizer-container">
+      <svg id="eq-graph" viewBox="0 0 580 200">
+        <!-- Frequency markers -->
+        <g class="frequency-markers">
+          <text x="40" y="195">20Hz</text>
+          <text x="140" y="195">100Hz</text>
+          <text x="240" y="195">1kHz</text>
+          <text x="340" y="195">10kHz</text>
+          <text x="440" y="195">20kHz</text>
+        </g>
+        
+        <!-- Gain markers -->
+        <g class="gain-markers">
+          <text x="10" y="20">+12dB</text>
+          <text x="10" y="100">0dB</text>
+          <text x="10" y="180">-12dB</text>
+        </g>
+        
+        <!-- Gridlines -->
+        <g class="grid-lines">
+          <!-- Horizontal gridlines -->
+          <line x1="30" y1="20" x2="550" y2="20" class="grid-line thin" />
+          <line x1="30" y1="60" x2="550" y2="60" class="grid-line thin" />
+          <line x1="30" y1="100" x2="550" y2="100" class="grid-line" />
+          <line x1="30" y1="140" x2="550" y2="140" class="grid-line thin" />
+          <line x1="30" y1="180" x2="550" y2="180" class="grid-line thin" />
+          
+          <!-- Vertical gridlines -->
+          <line x1="30" y1="20" x2="30" y2="180" class="grid-line" />
+          <line x1="140" y1="20" x2="140" y2="180" class="grid-line thin" />
+          <line x1="240" y1="20" x2="240" y2="180" class="grid-line thin" />
+          <line x1="340" y1="20" x2="340" y2="180" class="grid-line thin" />
+          <line x1="440" y1="20" x2="440" y2="180" class="grid-line thin" />
+          <line x1="550" y1="20" x2="550" y2="180" class="grid-line thin" />
+        </g>
+        
+        <!-- Audio spectrum visualization -->
+        <g id="audio-spectrum"></g>
+        
+        <!-- EQ response curve -->
+        <path id="eq-curve" class="eq-curve" d="M30,100 L550,100" />
+        
+        <!-- EQ control points -->
+        <g id="eq-handles"></g>
+        
+        <!-- Active band readout -->
+        <g id="active-band-readout" class="readout hidden">
+          <rect x="0" y="0" width="100" height="55" rx="4" />
+          <text id="readout-freq" x="10" y="15"></text>
+          <text id="readout-gain" x="10" y="30"></text>
+          <text id="readout-q" x="10" y="45"></text>
+        </g>
+      </svg>
+    </div>
+    
+    <!-- Advanced Controls Toggle -->
+    <div class="advanced-controls-toggle">
+      <button id="toggle-advanced-controls" class="button primary">
+        <span class="material-icons">tune</span>
+        <span>Advanced Controls</span>
+        <span class="material-icons toggle-icon">expand_more</span>
+      </button>
+    </div>
+    
+    <!-- EQ Controls Panel -->
+    <div id="band-controls" class="band-controls collapsed"></div>
+    
+    <!-- Additional Controls Bar Section -->
+    <div class="controls-bar">
+      <div class="controls-section">
+        <!-- Additional controls can be added here if needed in the future -->
+      </div>
+    </div>
+    
+    <!-- Version Info and Developer Link -->
+    <div class="version-info-container">
+      <div class="version-info">Version 1.2.0</div>
+      <div id="developer-badge">
+        <a href="https://x.com/aashishjha__" target="_blank" class="developer-link">
+          <span class="material-icons">person</span>
+          <span>Follow the Developer</span>
+          <span class="material-icons">open_in_new</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Preset Management Modal -->
+  <div id="preset-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Save Preset</h3>
+        <button id="close-modal" class="icon-button">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <label for="preset-name">Preset Name</label>
+        <input type="text" id="preset-name" placeholder="My Custom Preset">
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancel-preset" class="button secondary">Cancel</button>
+        <button id="save-preset-confirm" class="button primary">Save</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="utils.js"></script>
+  <script src="presets.js"></script>
+  <script src="eq-visualizer.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
